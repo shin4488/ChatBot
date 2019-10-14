@@ -15,7 +15,6 @@
 import os
 import sys
 from argparse import ArgumentParser
-import json
 from flask import Flask, request, abort
 from linebot import (
     LineBotApi, WebhookHandler
@@ -58,16 +57,15 @@ def callback():
 
 def chat(words):
     endpoint = "https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk"
-    #with open("apikey.txt") as keyFile:
-    #    apiKey = keyFile.read().strip()
+    #with open("api_key.txt") as keyFile:
+    #    api_key = keyFile.read().strip()
     api_key = os.getenv('TALK_API_KEY', None)
     if api_key is None:
         print('Specify TALK_API_KEY as environment variable.')
         sys.exit(1)
     param = {"apikey":api_key, "query":words}
-    #header = {"Content-type":"application-json"}
     response = requests.post(endpoint, data=param)
-    errorMsg = "Please send other messages"
+    errorMsg = "あれ、聞こえてますか？"
     if response.status_code == 200:
         status = switchResponseWord(response.json().get("status"))
         if status == "OK":
@@ -80,19 +78,19 @@ def chat(words):
 def switchResponseWord(status_code):
     response_text = {
         0:"OK",
-        1000:"No api key is found. Please ask to the developer.",
-        1001:"No api key is found. Please ask to the developer.",
-        1002:"The api key is already deleted. Please ask to the developer.",
-        1003:"The api key is not active now. Please ask to the developer.",
-        1010:"Server error. Please hold on.",
-        1011:"Server error. Please hold on.",
-        1030:"The access was denied.",
-        1400:"Please express in another way.",
-        1404:"Please express in another way.",
-        1405:"Please express in another way.",
-        1413:"The request should be shorter.",
-        1500:"Server error. Please hold on.",
-        2000:"Please express in another way."
+        1000:"故障かな？ごめんよ、ちょっと開発者呼んできて",
+        1001:"故障かな？ごめんよ、ちょっと開発者呼んできて",
+        1002:"故障かな？ごめんよ、ちょっと開発者呼んできて",
+        1003:"故障かな？ごめんよ、ちょっと開発者呼んできて",
+        1010:"Server error. ちょっと待ってね",
+        1011:"Server error. ちょっと待ってね",
+        1030:"ごめん、今ちょっと忙しい",
+        1400:"ごめん、ちょっとよく分かんない",
+        1404:"ごめん、ちょっとよく分かんない",
+        1405:"ごめん、ちょっとよく分かんない",
+        1413:"ごめん、文章長すぎて読み切れない",
+        1500:"Server error. ちょっと待ってね",
+        2000:"ごめん、ちょっとよく分かんない"
     }
     return response_text.get(status_code)
 
