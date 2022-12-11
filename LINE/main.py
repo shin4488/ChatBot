@@ -38,6 +38,7 @@ if channel_secret is None:
 if channel_access_token is None:
     print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
     sys.exit(1)
+
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
@@ -56,9 +57,7 @@ def callback():
     return 'OK'
 
 def chat(words):
-    endpoint = "https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk"
-    #with open("api_key.txt") as keyFile:
-    #    api_key = keyFile.read().strip()
+    endpoint = "https://api.a3rt.recruit.co.jp/talk/v1/smalltalk"
     api_key = os.getenv('TALK_API_KEY', None)
     if api_key is None:
         print('Specify TALK_API_KEY as environment variable.')
@@ -82,8 +81,8 @@ def switchResponseWord(status_code):
         1001:"故障かな？ごめんよ、ちょっと開発者呼んできて",
         1002:"故障かな？ごめんよ、ちょっと開発者呼んできて",
         1003:"故障かな？ごめんよ、ちょっと開発者呼んできて",
-        1010:"Server error. ちょっと待ってね",
-        1011:"Server error. ちょっと待ってね",
+        1010:"Server errorだよ。ちょっと待ってね",
+        1011:"Server errorだよ。 ちょっと待ってね",
         1030:"ごめん、今ちょっと忙しい",
         1400:"ごめん、ちょっとよく分かんない",
         1404:"ごめん、ちょっとよく分かんない",
